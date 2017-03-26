@@ -1,0 +1,27 @@
+# roles/devops/tasks/ssh-config.yaml
+---
+- name: 0. Create user
+  user:
+      name: "{{ local_user }}"
+      state: present
+      shell: /bin/bash
+- name: 1. Create ~/.ssh directory
+  file:
+      path: "{{ local_user_home }}/.ssh"
+      mode: 0600
+      owner: "{{ local_user }}"
+      state: directory
+- name: 2. Copy private cert
+  copy:
+      dest: "{{ local_user_home }}/.ssh/homelab_rsa"
+      src: ../files/homelab_rsa
+      mode: 0600
+- name: 3+ Copy public cert
+  copy:
+      src: ../files/homelab_rsa.pub
+      dest: "{{ local_user_home }}/.ssh/homelab_rsa.pub"
+      mode: 0600
+- name: 3. Copy ssh config file
+  template:
+      src: "../templates/ssh_config.j2"
+      dest: "{{ local_user_home }}/.ssh/config"

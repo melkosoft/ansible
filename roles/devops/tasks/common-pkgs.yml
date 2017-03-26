@@ -1,0 +1,19 @@
+# roles/devops/tasks/main.yml
+---
+# Assumed that git,python, ansible are installed
+- name: Load variable files
+  include_vars: 
+     dir: 'vars/pkg'
+     files_matching: "{{ item }}"
+     depth: 1
+  with_items:
+     - "{{ ansible_distribution }}.yml"
+     - "{{ ansible_os_family }}.yml"
+     - "default.yml"
+
+
+- name: Install basic packages
+  action: >
+      {{ ansible_pkg_mgr }} name="{{ basic_packages_to_install }}" state=present update_cache=yes
+
+

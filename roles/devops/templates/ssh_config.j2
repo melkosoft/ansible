@@ -1,0 +1,22 @@
+Host chef
+	User root
+Host vhost
+	User root
+Host gitlab
+	User root
+Host media
+	User root
+Host jenkins
+    User root 
+Host gitlab.artbreeze.org
+    User git 
+    RSAAuthentication yes
+Host github.com
+    User git
+Host *
+	User mike
+	Port 22
+	IdentityFile "{{ local_user_home }}/.ssh/id_rsa"
+    StrictHostKeyChecking no
+    UserKnownHostsFile=/dev/null
+

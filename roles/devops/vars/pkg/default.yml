@@ -1,0 +1,6 @@
+---
+basic_packages_to_install: 
+- python
+- vim
+       
+

@@ -1,0 +1,3 @@
+---
+local_user: mike
+local_user_home: /home/{{ local_user }}
