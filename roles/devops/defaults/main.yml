@@ -1,3 +1,25 @@
 ---
 local_user: mike
 local_user_home: /home/{{ local_user }}
+# git config
+git_email: "mmamaenko@yahoo.com"
+git_user: "Mike Mamaenko"
+
+# projects
+project_base: "{{ local_user_home }}/projects"
+project_tree:
+    - python
+    - python/prj
+    - chef
+    - chef/repo
+    - ansible
+    - ansible/roles
+    - ansible/vars
+    - ansible/group_vars
+    - ansible/host_vars
+    - ansible/library
+    - ansible/logs
+
+# Python based version
+python_version: "2.7.5"
+

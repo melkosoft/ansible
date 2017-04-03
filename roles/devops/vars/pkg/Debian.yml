@@ -1,3 +1,4 @@
 ---
 basic_packages_to_install: 
 - apt-file
+- build-essential

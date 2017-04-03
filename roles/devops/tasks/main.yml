@@ -1,5 +1,23 @@
 # roles/devops/tasks/main.yml
 ---
+- name: Create local user
+  user:
+      name: "{{ local_user }}"
+      shell: "/bin/bash"
+      home: "/home/{{ local_user }}"
+      state: present
+- name: Check permissions on HOME directory
+  file:
+      path: "/home/{{ local_user }}"
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      mode: 0755
+      recurse: yes
+      state: directory
+
 - include: common-pkgs.yml tags=based-pkgs,based-pkgs:install
 - include: ssh-config.yml tags=ssh,ssh:config
-
+- block:  
+    - include: python-env.yml tags=python,virtualenv
+  become: yes
+  become_user: "{{ local_user }}"

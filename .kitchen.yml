@@ -10,14 +10,16 @@ provisioner:
   name: ansible_playbook
   hosts: localhost
   roles_path: roles
-  ansible_verbosity: 3
-  ansible_verbose: false
-  require_ansible_repo: true 
+  ansible_verbosity: 5 
+  ansible_verbose: true
+  ansible_sudo: true
+  require_ansible_repo: false 
   require_ansible_omnibus: false
+  require_ansible_source: true
   require_chef_for_busser: false
 
 platforms:
-  - name: ubuntu-14.04
+  - name: ubuntu-16.10
 
 verifier:
   name: serverspec

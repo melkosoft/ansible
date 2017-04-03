@@ -2,5 +2,15 @@
 basic_packages_to_install: 
 - python
 - vim
+- make
+- wget
+- curl
        
-
+#python_packages_to_install:
+- libssl-dev
+- zlib1g-dev
+- libbz2-dev
+- libreadline-dev
+- libsqlite3-dev
+- llvm
+- libncurses5-dev
