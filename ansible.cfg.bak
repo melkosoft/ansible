@@ -1,0 +1,6 @@
+[defaults]
+roles_path	    = ./roles/
+retry_files_enabled = False
+become		    = yes	
+#log_path	    = ./logs/ansible.log
+#inventory	    = ./inventory/	

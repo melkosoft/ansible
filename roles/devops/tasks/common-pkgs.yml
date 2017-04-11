@@ -19,6 +19,15 @@
       state=present 
       update_cache=yes
 
+- name: Check that PIP is installed
+  command: which pip
+  register: python_pip
+
+- name: Install Python base packages
+  command: pip install {{ item }}
+  with_items: "{{ basic_python_pkg }}"
+  when: python_pip.rc == 0
+
 - name: Create directory structure
   file: 
      path: "{{ project_base }}/{{ item }}"

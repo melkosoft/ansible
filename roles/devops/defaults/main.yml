@@ -7,8 +7,11 @@ git_user: "Mike Mamaenko"
 
 # projects
 project_base: "{{ local_user_home }}/projects"
+python_venv: "{{ project_base }}/python/.venv"
+python_venv_prj: "{{ project_base }}/python/prj"
 project_tree:
     - python
+    - python/.venv
     - python/prj
     - chef
     - chef/repo

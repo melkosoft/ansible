@@ -1,6 +1,7 @@
 ---
 basic_packages_to_install: 
 - python
+- python-pip
 - vim
 - make
 - wget
@@ -14,3 +15,8 @@ basic_packages_to_install:
 - libsqlite3-dev
 - llvm
 - libncurses5-dev
+
+basic_python_pkg:
+- virtualenv
+- virtualenvwrapper
+

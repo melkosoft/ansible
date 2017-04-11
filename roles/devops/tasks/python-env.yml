@@ -1,0 +1,105 @@
+---
+# Install packages for Pyenv
+#- name: Install Python packages
+#  action: >
+#      {{ ansible_pkg_mgr }}
+#      name="{{ python_packages_to_install }}" 
+#      state=present 
+#      update_cache=yes
+
+# Install Pyenv using script
+- name: Download Pyenv script
+  get_url:
+      url: https://raw.githubusercontent.com/yyuu/pyenv-installer/master/bin/pyenv-installer
+      dest: /tmp/pyenv-installer.sh
+      mode: 0777
+- name: Install Pyenv
+  script: /tmp/pyenv-installer.sh
+
+# Get path to system python
+- name: Get python path
+  command: which python
+  register: python_path
+
+# Update bash profile
+- name: Update bash profile
+  blockinfile:
+      path: "{{ local_user_home }}/.bashrc"
+      create: true
+      backup: true
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      state: present
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+      block: |
+          export PATH="$HOME/.pyenv/bin:$PATH"
+          eval "$(pyenv init -)"
+          export WORKON_HOME={{ python_venv }}
+          export PROJECT_HOME={{ python_venv_prj }}
+          export PYENV_ROOT="$HOME/.pyenv"
+          export VIRTUALENVWRAPPER_PYTHON={{ python_path.stdout }}
+          export VIRTUALENVWRAPPER_VIRTUALENV=`which virtualenv`
+          source `which virtualenvwrapper_lazy.sh`
+
+- name: Customize POSTACTIVATE
+  blockinfile:
+      path: "{{ python_venv }}/postactivate"
+      backup: true
+      create: true
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      state: present
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+      block: |
+          _HOOK_PATH=bin/postactivate
+          _PROJECT_FILE=$VIRTUAL_ENV/$VIRTUALENVWRAPPER_PROJECT_FILENAME
+          if [ -s $_PROJECT_FILE ]; then
+          export _PROJECT_DIR=$(cat $_PROJECT_FILE)
+          _HOOK=$_PROJECT_DIR/$_HOOK_PATH
+          [ -f $_HOOK ] && . $_HOOK
+          fi
+
+- name: Customize POSTDEACTIVATE
+  blockinfile:
+      path: "{{ python_venv }}/postdeactivate"
+      backup: true
+      create: true
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      state: present
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+      block: |
+          _HOOK_PATH=bin/postdeactivate
+          if [ -n "$_PROJECT_DIR" ]; then
+          _HOOK=$_PROJECT_DIR/$_HOOK_PATH
+          [ -f $_HOOK ] && . $_HOOK
+          unset _PROJECT_DIR
+          fi
+      
+- name: Customize POSTMKVIRTUALENV
+  blockinfile:
+      path: "{{ python_venv }}/postmkvirtualenv"
+      backup: true
+      create: true
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      state: present
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+      block: |
+          proj_name=$(echo $VIRTUAL_ENV|awk -F'/' '{print $NF}')
+          [ ! -d ~/projects/$proj_name ] && mkdir -p ~/projects/$proj_name
+          add2virtualenv ~/projects/$proj_name
+          cd ~/projects/$proj_name
+
+- name: Customize PREDEACTIVATE 
+  blockinfile:
+      path: "{{ python_venv }}/predeactivate"
+      backup: true
+      create: true
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      state: present
+      marker: "#{mark} ANSIBLE MANAGED BLOCK"
+      block: |
+          cd
+
