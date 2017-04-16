@@ -7,7 +7,7 @@ basic_packages_to_install:
 - wget
 - curl
        
-#python_packages_to_install:
+# python_packages_to_install:
 - libssl-dev
 - zlib1g-dev
 - libbz2-dev
@@ -15,6 +15,11 @@ basic_packages_to_install:
 - libsqlite3-dev
 - llvm
 - libncurses5-dev
+
+# docker required packages
+- apt-transport-https
+- ca-certificates
+- software-properties-common
 
 basic_python_pkg:
 - virtualenv

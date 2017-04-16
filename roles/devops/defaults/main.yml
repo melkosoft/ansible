@@ -25,4 +25,5 @@ project_tree:
 
 # Python based version
 python_version: "2.7.5"
+docker_compose_ver: "1.11.2"
 

@@ -1,12 +1,4 @@
 ---
-# Install packages for Pyenv
-#- name: Install Python packages
-#  action: >
-#      {{ ansible_pkg_mgr }}
-#      name="{{ python_packages_to_install }}" 
-#      state=present 
-#      update_cache=yes
-
 # Install Pyenv using script
 - name: Download Pyenv script
   get_url:
@@ -22,7 +14,7 @@
   register: python_path
 
 # Update bash profile
-- name: Update bash profile
+- name: Update .bashrc profile
   blockinfile:
       path: "{{ local_user_home }}/.bashrc"
       create: true

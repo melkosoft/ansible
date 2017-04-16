@@ -17,6 +17,7 @@
 
 - include: common-pkgs.yml tags=based-pkgs,based-pkgs:install
 - include: ssh-config.yml tags=ssh,ssh:config
+- include: docker-env.yml
 - block:  
     - include: python-env.yml tags=python,virtualenv
   become: yes
