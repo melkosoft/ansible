@@ -19,8 +19,12 @@ provisioner:
   require_chef_for_busser: false
 
 platforms:
-  - name: ubuntu-16.10
-
+#  - name: ubuntu-16.10
+  - name: centos-7
+    driver_config: 
+        image: centos:7
+        provision_command: yum install -y python python-yaml python-jinja2
+        platform: centos
 verifier:
   name: serverspec
 

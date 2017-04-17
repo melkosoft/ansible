@@ -1,4 +1,4 @@
-# roles/devops/tasks/main.yml
+# devops/tasks/main.yml
 ---
 - name: Create local user
   user:
@@ -15,6 +15,13 @@
       recurse: yes
       state: directory
 
+- name: Install prerequisite repos
+  yum:
+      name: epel-release
+      state: present
+      update_cache: yes
+  when: ansible_pkg_mgr == 'yum'
+ 
 - include: common-pkgs.yml tags=based-pkgs,based-pkgs:install
 - include: ssh-config.yml tags=ssh,ssh:config
 - include: docker-env.yml

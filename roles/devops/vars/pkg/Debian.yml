@@ -1,6 +1,17 @@
 ---
 basic_packages_to_install: 
+- python-pip
 - apt-file
 - build-essential
+# docker prerequisites 
 - apt-transport-https
 - ca-certificates
+- software-properties-common
+# python_packages_to_install:
+- libssl-dev
+- zlib1g-dev
+- libbz2-dev
+- libreadline-dev
+- libsqlite3-dev
+- llvm
+- libncurses5-dev
